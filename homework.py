@@ -10,11 +10,28 @@ class Student:
     def __str__(self):
         ans = f'Имя: {self.name}\nФамилия: {self.surname}\n' \
               f'Средняя оценка за домашние задания: ' \
-              f'{sum(map(sum, self.grades.values())) / len(self.grades.values())}' \
+              f'{self.avg_hw_student()}' \
               f'\nКурсы в процессе изучения: {", ".join(self.courses_in_progress)} ' \
               f'\nЗавершенные курсы: {", ".join(self.finished_courses)}'
 
         return ans
+
+    def avg_hw_student(self):
+            grades = []
+            sumgrades = sum(sum(self.grades.values(), []))
+            for i in self.grades.values():
+                for b in i:
+                    grades.append(b)
+            d = sumgrades / len(grades)
+            return round(d, 1)
+
+
+    def __lt__(self, other):
+        if not isinstance(other, Student):
+            return 'Второй объект не студент'
+        else:
+            return self.avg_hw_student() < other.avg_hw_student()
+
 
     def rate_hw_lector(self, lecturer, course, grade):
         if isinstance(lecturer, Lecturer) and course in lecturer.courses_attached \
@@ -88,8 +105,8 @@ cool_reviewer.courses_attached += ['Python']
 cool_reviewer.courses_attached += ['Git']
 best_reviewer.courses_attached += ['Git']
 
-cool_reviewer.rate_hw(first_student, 'Python', 10)
-cool_reviewer.rate_hw(first_student, 'Python', 7)
+cool_reviewer.rate_hw(first_student, 'Python', 5)
+cool_reviewer.rate_hw(first_student, 'Python', 5)
 cool_reviewer.rate_hw(second_student, 'Python', 8)
 cool_reviewer.rate_hw(second_student, 'Python', 10)
 cool_reviewer.rate_hw(first_student, 'Git', 10)
@@ -119,3 +136,6 @@ def avg_hw_lecturers(lecturers_list, course):
             grades.append((sum(i.grades)))
             a = sum(grades) / len(lecturers_list)
             return a
+
+print(first_student < second_student)
+print(first_student > second_student)
