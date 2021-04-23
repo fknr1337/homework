@@ -9,82 +9,30 @@ with open('recipes.txt', encoding = 'utf-8') as file:
         for i in range(ingridient_count):
             a, b, c = file.readline().strip().split('|')
             temp_dict = {}
-            temp_dict['ingridient name'] = a
+            temp_dict['ingredient_name'] = a
             temp_dict['quantity'] = int(b)
             temp_dict['measure'] = c
             list_ings.append(temp_dict)
         file.readline()
-    pprint(cookbook)
+
 
 
 def get_shop_list_by_dishes(dishes, person_count):
     dict = {}
-    list = []
     for dish in dishes:
         if dish in cookbook.keys():
             for i in cookbook[dish]:
-                i['quantity'] *= person_count
-                list.append(i)
-    for i in list:
-        dict[i.pop('ingridient name')] = i
-    pprint(dict)
+                    if i['ingredient_name'] in dict:
+                        quantity = i['quantity'] * person_count
+                        dict[i['ingredient_name']]['quantity'] += quantity
+                    else:
+                        dict[i['ingredient_name']] = {
+                            'quantity': i['quantity'] * person_count,
+                            'measure': i['measure']
+                        }
 
-get_shop_list_by_dishes(["Омлет","Запеченный картофель"], 2)
+    return dict
 
-
-
-
-
-
-
+pprint(get_shop_list_by_dishes(["Омлет", "Фахитос"], 2))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        # for i in range(ingridient_count):
-        #     ings = {}
-        #     a, b, c = file.readline().strip().split('|')
-        #     print(a,b,c)
-        #     ings['ingridient_name'] = a
-        #     ings['quantity'] = int(b)
-        #     ings['measure'] = c
-        #     file.readline()
-        # cookbook[dish_name] = ings
-        # print(cookbook)
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # while True:
-    #     name_of_dish = f.readline().strip()
-    #     if not name_of_dish:
-    #         break
-    #     count = int(f.readline().strip())
-    #     ingridients = []
-    #     for i in range(count):
-    #         temp_dict = {}
-    #         ingridients = f.readline().strip()
-    #         print(ingridients)
-    #     f.readline().strip()
-    #     cookbook[name_of_dish] = ingridients
