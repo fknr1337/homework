@@ -7,7 +7,6 @@ def most_biggest_size(sizes):
     return max(sizes, key=lambda s: SIZES.index(s['type']))
 
 def get_request():
-    # token = 'faf2c1a36018142e3564e657e4d5053ed21073db5de508b7be23aa0ae3d412e6c76b462cf25f2adaa136a'
     token = str(input('Введите токе для API VK: '))
     url = 'https://api.vk.com/method/photos.get'
     params = {
