@@ -23,14 +23,16 @@ def get_request():
 
 def get_urls_list():
     urls_list = []
+    likes_count = []
     for keys in get_request():
-        likes_count = keys['likes']['count']
+        likes = keys['likes']['count']
+        likes_count.append(likes)
         biggest_size = most_biggest_size(keys['sizes'])
         perfect_urls = biggest_size['url']
         urls_list.append(perfect_urls)
-    return urls_list
+    return urls_list, likes_count
 
-def get_likes_count
+
 
 pprint(get_urls_list())
 
