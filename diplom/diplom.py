@@ -29,11 +29,31 @@ def get_urls_list():
         biggest_size = most_biggest_size(keys['sizes'])
         perfect_urls = biggest_size['url']
         urls_list.append(perfect_urls)
-    return urls_list, likes_count
+    return urls_list
 
 
+class YandexDisk:
 
-pprint(get_urls_list())
+    def __init__(self, token):
+        self.token = token
 
 
+    def upload_by_link(self):
+        url = 'https://cloud-api.yandex.net/v1/disk/resources/upload'
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'OAuth {}'.format(self.token)
+        }
+        params = {'url': [i for i in get_urls_list()],
+                  'path': ''
+                  }
+        response = requests.post(url=url, headers=headers, params=params)
+        response.raise_for_status()
+        if response.status_code == 201:
+            print("Success")
+
+
+ya = YandexDisk(token="")
+
+ya.upload_by_link()
 
